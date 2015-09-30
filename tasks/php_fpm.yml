@@ -1,0 +1,21 @@
+---
+
+- include: php_fpm/add/repository.yml
+
+- include: php_fpm/install/package.yml
+
+- include: php_fpm/create/default/directories.yml
+
+- include: php_fpm/create/pool/directories.yml
+
+- include: php_fpm/config/master/update.yml
+
+- include: php_fpm/config/master/includes/register.yml
+
+- include: php_fpm/config/master/includes/remove.yml
+
+- include: php_fpm/config/master/includes/add.yml
+
+- include: php_fpm/config/pools/clear.yml
+
+- include: php_fpm/config/pools/update.yml

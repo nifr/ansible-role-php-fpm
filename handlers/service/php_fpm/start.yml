@@ -1,0 +1,6 @@
+---
+
+- name: "service:php-fpm:start"
+  service:
+    name:  'php5-fpm'
+    state: 'started'

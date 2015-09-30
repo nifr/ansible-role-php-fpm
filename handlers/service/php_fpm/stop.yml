@@ -1,0 +1,6 @@
+---
+
+- name: "service:php-fpm:stop"
+  service:
+    name:  'php5-fpm'
+    state: 'stopped'

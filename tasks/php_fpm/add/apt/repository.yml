@@ -1,0 +1,25 @@
+---
+
+#- debug: var=php_fpm_version
+#- debug: var=php_fpm_repository
+
+- name: "php5-fpm:add:apt:repository | Adding the apt repository."
+  apt_repository:
+    repo:         '{{ item.repo }}'
+    state:        'present'
+    update_cache: '{{ item.cache_update }}'
+  with_items:
+    - '{"repo": "{{ php_fpm_repository }}", "cache_update": "{{ php_fpm_apt_cache_update }}"}'
+
+
+# deb http://packages.dotdeb.org wheezy-php56 all
+# deb-src http://packages.dotdeb.org wheezy-php56 all
+
+# deb http://packages.dotdeb.org wheezy-php55 all
+# deb-src http://packages.dotdeb.org wheezy-php55 all
+
+# deb http://packages.dotdeb.org squeeze-php54 all
+# deb-src http://packages.dotdeb.org squeeze-php54 all
+
+# wget https://www.dotdeb.org/dotdeb.gpg
+# sudo apt-key add dotdeb.gpg

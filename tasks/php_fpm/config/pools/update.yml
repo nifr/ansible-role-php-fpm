@@ -1,0 +1,14 @@
+---
+
+- name: "php-fpm:config:pools:update | Update pool configurations."
+  ini_file:
+    backup:  "no"
+    state:   "present"
+    dest:    "{{ item.path }}"
+    section: "{{ item.section }}"
+    option:  "{{ item.option }}"
+    value:   "{{ item.value }}"
+  with_ini_configs:
+    - '{{ php_fpm_pools }}'
+  notify:
+    - 'service:php-fpm:reload'

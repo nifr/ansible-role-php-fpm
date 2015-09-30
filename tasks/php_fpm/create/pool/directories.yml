@@ -1,0 +1,8 @@
+---
+
+- name: "php-fpm:create:pool:directories | Ensure pool directories."
+  file:
+    path: '{{ item }}'
+    state: directory
+  with_items:
+     - '{{ php_fpm_pools|rejectattr("path", "undefined")|rejectattr("path", "none")|map(attribute="path")|list|map("regex_replace", "(\/)+$", "")|list|map("dirname")|list }}'

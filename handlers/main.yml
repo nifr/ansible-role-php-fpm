@@ -1,0 +1,6 @@
+---
+
+- include: "service/php_fpm/start.yml"
+- include: "service/php_fpm/reload.yml"
+- include: "service/php_fpm/restart.yml"
+- include: "service/php_fpm/stop.yml"

@@ -1,0 +1,67 @@
+---
+
+php_fpm_repositories:
+  Ubuntu:
+     - version:    70
+       repository: "ppa:ondrej/php-7.0"
+     - version:    56
+       repository: "ppa:ondrej/php5-5.6"
+     - version:    55
+       repository: "ppa:ondrej/php5"
+     - version:    54
+       repository: "ppa:ondrej/php5-oldstable"
+
+php_fpm_packages:
+  Ubuntu: "php5-fpm"
+
+php_fpm_version:    56
+#php_fpm_repository: '{{ php_fpm_repositories|attr(ansible_distribution) }}'
+php_fpm_repository: '{{ php_fpm_repositories[ansible_distribution] | selectattr("version", "sameas", php_fpm_version) | list | map(attribute="repository") | first  }}'
+
+php_fpm_package:    '{{ php_fpm_packages [ansible_distribution] | default("php5-fpm", true) }}'
+
+php_fpm_cache_update: '{{ "yes" if apt_cache_update|default(true) else "no" }}'
+php_fpm_cache_timeout: '{{ apt_cache_timeout|default(3600) }}'
+
+php_fpm_apt_cache_update:  '{{ php_fpm_cache_update }}'
+php_fpm_apt_cache_timeout: '{{ php_fpm_cache_timeout }}'
+
+php_fpm_defaults_path_pools_available:  "/etc/php5/fpm/pools-available/"
+php_fpm_defaults_path_pools_enabled:    "/etc/php5/fpm/pools-enabled/"
+php_fpm_defaults_pool_config_owner:     "root"
+php_fpm_defaults_pool_config_group:     "root"
+php_fpm_defaults_pool_config_mode:      "0644"
+php_fpm_defaults_pool_directory_owner:  "root"
+php_fpm_defaults_pool_directory_group:  "root"
+php_fpm_defaults_pool_directory_mode:   "0755"
+
+# TODO - scheme that replaces a placeholder in the path with the pool name ( / replaced by __ )
+php_fpm_path_pools_enabled: ~
+php_fpm_path_pools_available: ~
+
+php_fpm_master_config_path: "/etc/php5/fpm/php-fpm.conf"
+php_fpm_master_config_section: "global"
+php_fpm_master_config_options:
+  - "pid":       "/run/php5-fpm.pid"
+  - "error_log": "/var/log/php5-fpm.log"
+  - "include":   "/etc/php5/fpm/pool.d/*.conf"
+
+php_fpm_pools:
+  - name:    "www"
+    enabled: true
+    path:    "/etc/php5/pool.d/www.conf"
+    merge:   "no"
+    sections:
+      - name: "www"
+        options:
+          - "user":                 "www-data"
+          - "group":                "www-data"
+          - "listen":               "/var/run/php5-fpm.sock"
+          - "listen.owner":         "www-data"
+          - "listen.group":         "www-data"
+          - "pm":                   "dynamic"
+          - "pm.max_children":      "5"
+          - "pm.start_servers":     "2"
+          - "pm.min_spare_servers": "1"
+          - "pm.max_spare_servers": "3"
+          - "chdir":                "/"

@@ -1,0 +1,12 @@
+---
+
+- name: "php-fpm:install:apt:package | Installing the apt package."
+  apt:
+    name:             '{{ item.package }}'
+    state:            'latest'
+    update_cache:     '{{ item.cache_update }}'
+    cache_valid_time: '{{ item.cache_ttl }}'
+  with_items:
+    - '{"package": "{{ php_fpm_package }}", "cache_update": "{{ php_fpm_cache_update }}", "cache_ttl": "{{ php_fpm_cache_timeout }}"}'
+
+

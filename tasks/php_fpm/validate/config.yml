@@ -1,0 +1,6 @@
+#
+
+#    /usr/lib/php5/php5-fpm-checkconf || return 1
+#    return 0
+
+# errors=$(/usr/sbin/php5-fpm --fpm-config /etc/php5/fpm/php-fpm.conf -t 2>&1 | grep "\[ERROR\]" || true);

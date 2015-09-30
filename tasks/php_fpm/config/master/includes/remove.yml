@@ -1,0 +1,16 @@
+---
+
+- name: "php-fpm:config:master:includes:remove | Remove include-statements from master configuration."
+  lineinfile:
+    dest:   "{{ php_fpm_master_config_path }}"
+    state:  "absent"
+    # | regex_escape() ??
+    # regexp: '^include\s?=\s?\Q{{ item }}\E'
+    regexp: '^include'
+  changed_when: 'item not in php_fpm_pools|rejectattr("enabled", "sameas", false)|map(attribute="path")|list'
+  failed_when:  false
+  notify:
+    - "service:php-fpm:reload"
+  with_items:
+    - "{{ php_fpm_config_old_includes }}"
+

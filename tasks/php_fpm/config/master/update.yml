@@ -1,0 +1,15 @@
+---
+
+- name: "php-fpm:config:master:update | Configure master configuration"
+  ini_file:
+    backup:  'no'
+    state:   'present'
+    dest:    '{{ item.path }}'
+    section: '{{ item.section }}'
+    option:  '{{ item.option }}'
+    value:   '{{ item.value }}'
+  with_ini_file:
+    - '{"path": "{{ php_fpm_master_config_path }}", "sections": {{ lookup("ini_section", [php_fpm_master_config_section, php_fpm_master_config_options], wantlist=True) }} }'
+  when: 'item.option != "include"'
+  notify:
+    - "service:php-fpm:reload"
