@@ -39,12 +39,18 @@ php_fpm_defaults_pool_directory_mode:   "0755"
 php_fpm_path_pools_enabled: ~
 php_fpm_path_pools_available: ~
 
-php_fpm_master_config_path: "/etc/php5/fpm/php-fpm.conf"
-php_fpm_master_config_section: "global"
-php_fpm_master_config_options:
-  - "pid":       "/run/php5-fpm.pid"
-  - "error_log": "/var/log/php5-fpm.log"
-  - "include":   "/etc/php5/fpm/pool.d/*.conf"
+php_fpm_master_configs:
+  - name:    "php5-fpm"
+    enabled: true
+    path:    "/etc/php5/fpm/php-fpm.conf"
+    merge:   "no"
+    sections:
+      - name: "global"
+        options:
+          - "pid":       "/run/php5-fpm.pid"
+          - "error_log": "/var/log/php5-fpm.log"
+    includes:
+      - "/etc/php5/fpm/pool.d/*.conf"
 
 php_fpm_pools:
   - name:    "www"

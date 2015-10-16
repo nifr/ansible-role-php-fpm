@@ -2,5 +2,6 @@
 
 - name: "service:php-fpm:restart"
   service:
-    name:  'php5-fpm'
+    name:  '{{ item.name }}'
     state: 'restarted'
+  with_items: php_fpm_master_configs

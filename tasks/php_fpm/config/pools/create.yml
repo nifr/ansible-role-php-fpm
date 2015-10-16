@@ -1,0 +1,10 @@
+---
+
+- name: "php-fpm:config:pools:create | Create pool configurations."
+  template:
+    src:  "../../../../templates/php-fpm/ini.conf.j2"
+    dest: '{{ item.path }}'
+  with_items: php_fpm_pools
+  when: 'item.enabled'
+  notify:
+    - 'service:php-fpm:reload'

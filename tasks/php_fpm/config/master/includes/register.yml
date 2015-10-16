@@ -1,10 +1,8 @@
 ---
 
-- name:  "php-fpm:config:master:includes:register[cat] | Read current configuration into variable."
-  command: "cat /etc/php5/fpm/php-fpm.conf"
-  register: php_fpm_config_old
+- command: 'grep include {{ item }}'
+  with_items:
+    - '{{ php_fpm_master_configs|rejectattr("enabled", "sameas", false)|rejectattr("path", "none")|map(attribute="path")|list }}'
+  register: php_fpm_master_configs_includes
   changed_when: false
-
-
-- name:  "php-fpm:config:master:includes:register[set_fact] | Extract currecnt include statements from variable."
-  set_fact: 'php_fpm_config_old_includes="{{ php_fpm_config_old.stdout_lines|map("regex_replace", "^(?!(?:include)).*", "")|list|reject("sameas", "")|list|map("regex_replace", "include\s?=\s?", "")|list }}"'
+  ignore_errors: true

@@ -1,0 +1,10 @@
+#{{ ansible_managed }}
+
+{% for section in item.sections -%}
+[{{ section.name }}]
+{% for option in section.options -%}
+{% for key, value in option.iteritems() %}
+{{ key }} = {{ value }}
+{% endfor -%}
+{% endfor -%}
+{% endfor -%}

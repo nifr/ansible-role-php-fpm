@@ -2,5 +2,6 @@
 
 - name: "service:php-fpm:stop"
   service:
-    name:  'php5-fpm'
+    name:  '{{ item.name }}'
     state: 'stopped'
+  with_items: php_fpm_master_configs
