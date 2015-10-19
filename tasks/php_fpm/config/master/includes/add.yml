@@ -2,12 +2,13 @@
 
 - name: "php-fpm:config:master:includes:add | Add include-statements to master configuration."
   lineinfile:
-    dest:  "{{ php_fpm_master_config_path }}"
+    dest:  "{{ item.0.path }}"
     state: "present"
-    line:  "include = {{ item }}"
+    line:  "include = {{ item.1 }}"
     insertafter: "EOF"
-  with_items:
-    - '{{ php_fpm_pools|rejectattr("enabled", "sameas", false)|rejectattr("path", "none")|map(attribute="path")|list }}'
-  changed_when: 'item not in php_fpm_config_old_includes'
+  with_subelements:
+     - php_fpm_master_configs
+     - includes
+  changed_when: '{{ "include = " + item.1 not in php_fpm_master_configs_includes.results|selectattr("item", "equalto", item.0.path)|map(attribute="stdout_lines")|list|first }}'
   notify:
     - "service:php-fpm:reload"

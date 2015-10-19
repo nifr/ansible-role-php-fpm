@@ -16,6 +16,4 @@
 
 - include: php_fpm/config/master/includes/add.yml
 
-- include: php_fpm/config/pools/clear.yml
-
-- include: php_fpm/config/pools/update.yml
+- include: php_fpm/config/pools/create.yml
