@@ -17,3 +17,5 @@
 - include: php_fpm/config/master/includes/add.yml
 
 - include: php_fpm/config/pools/create.yml
+
+- include: php_fpm/config/ini/create.yml
