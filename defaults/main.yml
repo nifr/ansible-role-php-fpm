@@ -71,3 +71,5 @@ php_fpm_pools:
           - "pm.min_spare_servers": "1"
           - "pm.max_spare_servers": "3"
           - "chdir":                "/"
+
+php_ini_configs: []

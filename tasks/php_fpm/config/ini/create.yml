@@ -1,0 +1,10 @@
+---
+
+- name: "php-fpm:config:ini:create | Create ini configurations."
+  template:
+    src:  "../../../../templates/php-fpm/ini.conf.j2"
+    dest: '{{ item.path }}'
+  with_items:
+   - '{{ php_ini_configs }}'
+  notify:
+    - 'service:php-fpm:reload'
